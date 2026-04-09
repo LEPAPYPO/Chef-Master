@@ -6,273 +6,274 @@
     <title>Chef Master</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        :root { --primary: #ff6b6b; --dark: #1a1c20; --bg: #f8f9fb; --shadow: 0 15px 35px rgba(0,0,0,0.06); }
+        * { box-sizing: border-box; transition: all 0.3s ease; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: var(--bg); color: #2d3436; height: 100vh; display: flex; overflow: hidden; }
 
-        :root {
-            --primary: #ff6b6b;
-            --primary-soft: #fff1f1;
-            --dark: #1a1c20;
-            --bg: #f8f9fb;
-            --sidebar-bg: #ffffff;
-            --text: #2d3436;
-            --radius-lg: 32px;
-            --shadow: 0 15px 35px rgba(0,0,0,0.06);
-        }
-
-        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
-
-        /* --- NAVIGATION --- */
-        .sidebar { width: 280px; background: var(--sidebar-bg); padding: 40px 24px; display: flex; flex-direction: column; border-right: 1px solid #edf2f7; z-index: 100; }
-        .logo { font-size: 1.8rem; font-weight: 800; margin-bottom: 50px; cursor: pointer; }
+        /* NAV */
+        .sidebar { width: 280px; background: #fff; padding: 40px 24px; display: flex; flex-direction: column; border-right: 1px solid #eee; z-index: 100; }
+        .logo { font-size: 1.8rem; font-weight: 800; margin-bottom: 40px; cursor: pointer; }
         .logo span { color: var(--primary); }
+        .menu-btn { padding: 15px; cursor: pointer; border-radius: 15px; border: none; background: none; color: #718096; text-align: left; font-weight: 600; display: flex; align-items: center; gap: 12px; width: 100%; margin-bottom: 5px; }
+        .menu-btn.active { background: var(--primary); color: white; }
 
-        .menu-btn {
-            padding: 16px 20px; cursor: pointer; border-radius: 20px; margin-bottom: 10px;
-            background: transparent; border: none; color: #718096; text-align: left;
-            font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 15px; width: 100%;
-        }
-        .menu-btn.active { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2); }
-
-        /* --- MAIN --- */
-        .main { flex: 1; overflow-y: auto; padding: 50px 60px; scroll-behavior: smooth; }
+        /* MAIN */
+        .main { flex: 1; overflow-y: auto; padding: 40px; scroll-behavior: smooth; }
         .hidden { display: none !important; }
-        h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; margin: 0 0 10px 0; line-height: 1; }
-        .subtitle { color: #a0aec0; margin-bottom: 40px; }
-
-        /* CARDS */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-        .card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); cursor: pointer; position: relative; }
-        .card:hover { transform: translateY(-10px); }
-        .img-container { width: 100%; height: 240px; overflow: hidden; position: relative; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; }
-        .fav-badge { position: absolute; top: 15px; right: 15px; background: white; padding: 8px; border-radius: 50%; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
-
-        /* DETAIL PAGE */
-        .recipe-hero { width: 100%; height: 500px; border-radius: 40px; object-fit: cover; margin-bottom: 40px; }
-        .detail-layout { display: grid; grid-template-columns: 1fr 380px; gap: 60px; }
-        .ing-card { background: white; padding: 35px; border-radius: var(--radius-lg); box-shadow: var(--shadow); position: sticky; top: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         
-        /* MODE CUISINE GÉANT */
-        .kitchen-mode { position: fixed; inset: 0; background: white; z-index: 3000; padding: 40px; overflow-y: auto; display: none; }
-        .kitchen-mode h2 { font-size: 3rem; color: var(--primary); }
-        .kitchen-mode p { font-size: 2rem; line-height: 1.6; }
+        /* CARDS */
+        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: var(--shadow); cursor: pointer; position: relative; }
+        .img-container { width: 100%; height: 200px; position: relative; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; }
+        .fav-btn { position: absolute; top: 15px; right: 15px; background: white; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
-        /* --- MOBILE --- */
+        /* RECIPE DETAIL */
+        .recipe-hero { width: 100%; height: 400px; border-radius: 35px; object-fit: cover; margin-bottom: 30px; }
+        .layout { display: grid; grid-template-columns: 1fr 350px; gap: 40px; }
+        .ing-card { background: white; padding: 30px; border-radius: 25px; box-shadow: var(--shadow); height: fit-content; }
+        .portion-ctrl { display: flex; align-items: center; justify-content: space-between; background: var(--dark); color: white; padding: 15px; border-radius: 18px; margin-bottom: 20px; }
+        .p-btn { width: 30px; height: 30px; border-radius: 8px; border: none; background: #444; color: white; cursor: pointer; }
+
+        /* ADMIN */
+        .admin-section { background: white; padding: 25px; border-radius: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+
+        /* MOBILE */
         @media (max-width: 850px) {
             body { flex-direction: column; }
-            .sidebar { position: fixed; bottom: 0; width: 100%; height: 80px; flex-direction: row; padding: 0 10px; border-top: 1px solid #eee; border-radius: 30px 30px 0 0; }
-            .logo, .menu-btn span, #login-trigger, #logout-trigger { display: none; }
-            .menu-btn { margin: 0; flex: 1; justify-content: center; font-size: 1.6rem; }
-            .main { padding: 30px 20px 100px 20px; }
-            h1 { font-size: 2.5rem !important; }
-            .grid { grid-template-columns: 1fr; }
-            .detail-layout { grid-template-columns: 1fr; }
-            .recipe-hero { height: 300px; }
-            .sidebar #admin-links { display: flex; width: 100%; }
+            .sidebar { position: fixed; bottom: 0; width: 100%; height: 70px; flex-direction: row; padding: 10px; border-top: 1px solid #eee; border-radius: 25px 25px 0 0; }
+            .logo, .menu-btn span, #admin-nav-group, #logout-btn, #login-trigger span { display: none; }
+            .main { padding: 20px 20px 90px 20px; }
+            .layout { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem !important; }
+            .menu-btn { justify-content: center; margin: 0; }
         }
 
         /* MODAL */
-        #login-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); display: flex; align-items: center; justify-content: center; z-index: 4000; }
-        .modal-box { background: white; padding: 40px; border-radius: 35px; width: 90%; max-width: 400px; text-align: center; }
-        input, textarea { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 20px; border: 1px solid #eee; font-size: 1rem; outline: none; }
-        .btn-action { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 20px; width: 100%; font-weight: 800; cursor: pointer; }
+        #modal-login { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-box { background: white; padding: 35px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; }
+        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid #eee; font-size: 1rem; outline: none; }
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 15px; width: 100%; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="sidebar">
     <div class="logo" onclick="window.showPage('home')">Chef<span>Master.</span></div>
-    <button class="menu-btn active" id="btn-home" onclick="window.showPage('home')">🏠 <span>Accueil</span></button>
-    <button class="menu-btn" id="btn-favs" onclick="window.showFavs()">❤️ <span>Favoris</span></button>
+    <button class="menu-btn active" id="btn-home" onclick="window.showPage('home')">🏠 <span>Recettes</span></button>
+    <button class="menu-btn" id="btn-favs" onclick="window.showPage('favs')">❤️ <span>Favoris</span></button>
     
-    <div id="admin-links" class="hidden" style="display: contents;">
-        <button class="menu-btn" id="btn-add" onclick="window.showPage('add')">✨ <span>Créer</span></button>
-        <button class="menu-btn" id="btn-manage" onclick="window.showPage('manage')">🛠 <span>Admin</span></button>
+    <div id="admin-nav-group" class="hidden">
+        <hr style="border:0; border-top:1px solid #eee; margin: 15px 0">
+        <button class="menu-btn" id="btn-add" onclick="window.showPage('add')">✨ <span>Ajouter</span></button>
+        <button class="menu-btn" id="btn-admin" onclick="window.showPage('admin')">👥 <span>Comptes</span></button>
     </div>
 
-    <button id="login-trigger" class="menu-btn" style="margin-top:auto" onclick="window.openModal()">🔐 <span>Admin</span></button>
-    <button id="logout-trigger" class="menu-btn hidden" style="margin-top:auto; color:var(--primary)" onclick="window.logout()">🚪 <span>Quitter</span></button>
+    <button id="login-trigger" class="menu-btn" style="margin-top: auto;" onclick="window.openLogin()">🔑 <span>Login</span></button>
+    <button id="logout-btn" class="menu-btn hidden" style="margin-top: auto; color: #ff4757" onclick="window.logout()">🚪 <span>Déconnexion</span></button>
 </div>
 
-<div class="main" id="scroll-area">
+<div class="main">
     <div id="page-home">
-        <h1>Chef <span>Master.</span></h1>
-        <p class="subtitle">Votre carnet de cuisine intelligent.</p>
-        <div style="display:flex; gap:10px; margin-bottom:30px">
-            <input type="text" id="search-bar" placeholder="Chercher une recette..." oninput="window.drawHome()" style="margin:0; flex:1">
-            <button class="btn-action" style="width:auto; padding:0 25px" onclick="window.goSurprise()">🎲</button>
-        </div>
+        <h1 id="welcome-msg">Chef Master.</h1>
+        <p style="color:#aaa; margin-bottom:30px">Découvrez et cuisinez les meilleures pépites.</p>
+        <input type="text" id="search" placeholder="Chercher un ingrédient ou un plat..." oninput="window.renderHome()" style="margin-bottom: 30px">
         <div id="home-grid" class="grid"></div>
     </div>
 
     <div id="page-detail" class="hidden">
-        <div style="display:flex; gap:10px; margin-bottom:20px">
-            <button class="menu-btn" style="width:auto; background:#eee" onclick="window.showPage('home')">← Retour</button>
-            <button class="menu-btn" style="width:auto; background:var(--dark); color:white" onclick="window.openKitchen()">👨‍🍳 Mode Cuisine</button>
-            <button class="menu-btn" style="width:auto; background:#25D366; color:white" onclick="window.shareWA()">📱 Partager</button>
-        </div>
+        <button class="menu-btn" style="width:auto; background:#eee; margin-bottom:20px" onclick="window.showPage('home')">← Retour</button>
         <div id="detail-content"></div>
+    </div>
+
+    <div id="page-admin" class="hidden">
+        <h1>Gestion des comptes</h1>
+        <div class="admin-section">
+            <input type="text" id="new-user" placeholder="Nom d'utilisateur">
+            <input type="password" id="new-pass" placeholder="Mot de passe">
+            <select id="new-role">
+                <option value="viewer">Spectateur</option>
+                <option value="admin">Administrateur</option>
+            </select>
+            <button class="btn-primary" onclick="window.createUser()">Créer le compte</button>
+        </div>
+        <div class="admin-section">
+            <table id="user-table">
+                <thead><tr><th>Nom</th><th>Rôle</th><th>Action</th></tr></thead>
+                <tbody id="user-list"></tbody>
+            </table>
+        </div>
     </div>
 
     <div id="page-add" class="hidden">
         <h1>Nouvelle Recette</h1>
-        <div style="background:white; padding:30px; border-radius:30px; box-shadow:var(--shadow); max-width:600px">
-            <input type="text" id="titre" placeholder="Nom du plat">
-            <input type="text" id="temps" placeholder="Temps (ex: 30 min)">
-            <input type="text" id="image" placeholder="Lien image (Unsplash)">
-            <textarea id="ingredients" rows="3" placeholder="Ingrédients (séparés par une virgule)"></textarea>
-            <textarea id="instructions" rows="6" placeholder="Étapes..."></textarea>
-            <button class="btn-action" onclick="window.sauverRecette()">Publier</button>
-        </div>
-    </div>
-
-    <div id="page-manage" class="hidden">
-        <h1>Admin</h1>
-        <div id="manage-grid" class="grid"></div>
+        <input type="text" id="r-title" placeholder="Titre du plat">
+        <input type="text" id="r-time" placeholder="Temps (ex: 20 min)">
+        <input type="text" id="r-img" placeholder="Image URL (Unsplash)">
+        <textarea id="r-ing" placeholder="Ingrédients (ex: 400g Pâtes, 2 Oeufs) séparés par virgule"></textarea>
+        <textarea id="r-steps" rows="6" placeholder="Instructions de préparation..."></textarea>
+        <button class="btn-primary" onclick="window.saveRecipe()">Publier sur le site</button>
     </div>
 </div>
 
-<div id="kitchen-overlay" class="kitchen-mode">
-    <button onclick="window.closeKitchen()" style="position:fixed; top:20px; right:20px; font-size:2rem; border:none; background:none; cursor:pointer">✖</button>
-    <div id="kitchen-data"></div>
-</div>
-
-<div id="login-modal" class="hidden">
+<div id="modal-login" class="hidden">
     <div class="modal-box">
-        <h2>Accès Chef</h2>
-        <input type="text" id="user" placeholder="Nom d'utilisateur">
-        <input type="password" id="pass" placeholder="Mot de passe">
-        <button class="btn-action" onclick="window.validerLogin()">Entrer</button>
-        <button onclick="window.closeModal()" style="border:none; background:none; margin-top:15px; color:#aaa; cursor:pointer">Fermer</button>
+        <h2>Connexion</h2>
+        <input type="text" id="login-u" placeholder="Utilisateur">
+        <input type="password" id="login-p" placeholder="Mot de passe">
+        <button class="btn-primary" onclick="window.login()">Se connecter</button>
+        <button onclick="window.closeLogin()" style="background:none; border:none; color:#aaa; margin-top:15px; cursor:pointer">Annuler</button>
     </div>
 </div>
 
 <script>
-    let currentR = null;
-    let favs = JSON.parse(localStorage.getItem('cm_favs')) || [];
-
-    const initial = [
-        { id: 1, title: "Pasta Carbonara", time: "15 min", img: "https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800", ingredients: ["400g Pâtes", "200g Lardons", "4 Œufs", "100g Parmesan"], steps: "1. Cuire les pâtes.\n2. Faire dorer les lardons.\n3. Mélanger les œufs et le fromage.\n4. Tout lier avec un peu d'eau de cuisson." }
+    // --- DATA ---
+    let users = JSON.parse(localStorage.getItem('cm_users')) || [
+        { u: "leandre", p: "Lelebon2012!", role: "admin", favs: [] }
     ];
+    let recipes = JSON.parse(localStorage.getItem('cm_recipes')) || [
+        { id: 1, title: "Burger Maison", time: "20 min", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500", ing: ["200g Boeuf", "1 Pain burger", "20g Fromage", "1 Tomate"], steps: "1. Griller la viande.\n2. Toaster le pain.\n3. Assembler." },
+        { id: 2, title: "Salade César", time: "15 min", img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=500", ing: ["100g Poulet", "1 Salade", "30g Croutons"], steps: "1. Couper le poulet.\n2. Mélanger le tout." }
+    ];
+    let currentUser = null;
+    let currentPortions = 4;
 
-    window.recipes = JSON.parse(localStorage.getItem('cm_v11')) || initial;
-
-    window.showPage = (p) => {
-        document.querySelectorAll('.main > div').forEach(d => d.classList.add('hidden'));
-        const target = document.getElementById('page-'+p);
-        if(target) target.classList.remove('hidden');
-        document.querySelectorAll('.menu-btn').forEach(b => b.classList.toggle('active', b.id === 'btn-'+p));
-        if(p === 'home') window.drawHome();
-        if(p === 'manage') window.drawManage();
+    // --- AUTH ---
+    window.login = () => {
+        const u = document.getElementById('login-u').value;
+        const p = document.getElementById('login-p').value;
+        const found = users.find(x => x.u === u && x.p === p);
+        if(found) {
+            currentUser = found;
+            window.closeLogin();
+            document.getElementById('login-trigger').classList.add('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('welcome-msg').innerText = `Chef ${found.u} !`;
+            if(found.role === 'admin') document.getElementById('admin-nav-group').classList.remove('hidden');
+            window.renderHome();
+        } else alert("Identifiants incorrects");
     };
 
-    window.drawHome = (data = window.recipes) => {
-        const s = document.getElementById('search-bar').value.toLowerCase();
-        const filtered = data.filter(r => r.title.toLowerCase().includes(s));
-        document.getElementById('home-grid').innerHTML = filtered.map(r => `
+    window.logout = () => location.reload();
+    window.openLogin = () => document.getElementById('modal-login').classList.remove('hidden');
+    window.closeLogin = () => document.getElementById('modal-login').classList.add('hidden');
+
+    // --- NAVIGATION ---
+    window.showPage = (p) => {
+        document.querySelectorAll('.main > div').forEach(d => d.classList.add('hidden'));
+        document.getElementById('page-'+p).classList.remove('hidden');
+        document.querySelectorAll('.menu-btn').forEach(b => b.classList.toggle('active', b.id === 'btn-'+p));
+        if(p === 'admin') window.renderUsers();
+        if(p === 'favs') {
+            if(!currentUser) { alert("Connectez-vous pour voir vos favoris !"); window.openLogin(); window.showPage('home'); }
+            else window.renderHome(true);
+        }
+    };
+
+    // --- RENDER ---
+    window.renderHome = (onlyFavs = false) => {
+        const q = document.getElementById('search').value.toLowerCase();
+        let list = onlyFavs ? recipes.filter(r => currentUser.favs.includes(r.id)) : recipes;
+        if(q) list = list.filter(r => r.title.toLowerCase().includes(q) || r.ing.join().toLowerCase().includes(q));
+
+        document.getElementById('home-grid').innerHTML = list.map(r => `
             <div class="card" onclick="window.openRecipe(${r.id})">
                 <div class="img-container">
                     <img src="${r.img}" class="card-img">
-                    <div class="fav-badge" onclick="event.stopPropagation(); window.toggleFav(${r.id})">
-                        ${favs.includes(r.id) ? '❤️' : '🤍'}
-                    </div>
+                    <button class="fav-btn" onclick="event.stopPropagation(); window.toggleFav(${r.id})">
+                        ${(currentUser && currentUser.favs.includes(r.id)) ? '❤️' : '🤍'}
+                    </button>
                 </div>
                 <div style="padding:20px">
                     <b>${r.title}</b><br>
-                    <small style="color:#aaa">⏱ ${r.time}</small>
+                    <small>⏱ ${r.time} • 👥 4 pers.</small>
                 </div>
-            </div>`).join('');
+            </div>
+        `).join('');
     };
 
     window.openRecipe = (id) => {
-        currentR = window.recipes.find(r => r.id === id);
+        const r = recipes.find(x => x.id === id);
+        currentPortions = 4;
         window.showPage('detail');
+        window.renderDetail(r);
+    };
+
+    window.renderDetail = (r) => {
+        const ratio = currentPortions / 4;
+        const ings = r.ing.map(i => i.replace(/(\d+)/g, m => Math.round(m * ratio)));
         document.getElementById('detail-content').innerHTML = `
-            <img src="${currentR.img}" class="recipe-hero">
-            <div class="detail-layout">
+            <img src="${r.img}" class="recipe-hero">
+            <div class="layout">
                 <div>
-                    <h1>${currentR.title}</h1>
-                    <p style="font-size:1.2rem; line-height:1.8; color:#666; white-space:pre-line">${currentR.steps}</p>
+                    <h1>${r.title}</h1>
+                    <p style="white-space:pre-line; line-height:1.8; color:#666">${r.steps}</p>
                 </div>
                 <div class="ing-card">
-                    <h3>Ingrédients</h3>
-                    <ul style="padding:0; list-style:none">
-                        ${currentR.ingredients.map(i => `<li style="padding:10px 0; border-bottom:1px solid #eee">✔ ${i}</li>`).join('')}
-                    </ul>
+                    <div class="portion-ctrl">
+                        <span>Portions</span>
+                        <div>
+                            <button class="p-btn" onclick="window.changeP(-1, ${r.id})">-</button>
+                            <b style="margin:0 10px">${currentPortions}</b>
+                            <button class="p-btn" onclick="window.changeP(1, ${r.id})">+</button>
+                        </div>
+                    </div>
+                    <h3>🛒 Ingrédients</h3>
+                    <ul style="padding:0; list-style:none">${ings.map(i => `<li style="padding:10px 0; border-bottom:1px solid #f9f9f9">✔ ${i}</li>`).join('')}</ul>
                 </div>
             </div>`;
     };
 
+    window.changeP = (v, id) => {
+        if(currentPortions + v >= 1) { currentPortions += v; window.renderDetail(recipes.find(x => x.id === id)); }
+    };
+
     window.toggleFav = (id) => {
-        if(favs.includes(id)) favs = favs.filter(f => f !== id);
-        else favs.push(id);
-        localStorage.setItem('cm_favs', JSON.stringify(favs));
-        window.drawHome();
+        if(!currentUser) return window.openLogin();
+        if(currentUser.favs.includes(id)) currentUser.favs = currentUser.favs.filter(x => x !== id);
+        else currentUser.favs.push(id);
+        localStorage.setItem('cm_users', JSON.stringify(users));
+        window.renderHome();
     };
 
-    window.showFavs = () => {
-        const data = window.recipes.filter(r => favs.includes(r.id));
-        window.drawHome(data);
-        document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-favs').classList.add('active');
-    };
-
-    window.openKitchen = () => {
-        document.getElementById('kitchen-data').innerHTML = `<h2>${currentR.title}</h2><p>${currentR.steps}</p>`;
-        document.getElementById('kitchen-overlay').style.display = 'block';
-    };
-    window.closeKitchen = () => document.getElementById('kitchen-overlay').style.display = 'none';
-
-    window.shareWA = () => {
-        const text = `Regarde cette recette de ${currentR.title} sur Chef Master !`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
-    };
-
-    window.validerLogin = () => {
-        // Les identifiants sont vérifiés ici sans être écrits en dur
-        const u = document.getElementById('user').value;
-        const p = document.getElementById('pass').value;
-        
-        // Note: Pour une sécurité réelle, on utiliserait un serveur.
-        // Ici, on remplace par tes valeurs sans les afficher.
-        if(u === "leandre" && p === "Lelebon2012!") {
-            document.getElementById('admin-links').classList.remove('hidden');
-            document.getElementById('login-trigger').classList.add('hidden');
-            document.getElementById('logout-trigger').classList.remove('hidden');
-            window.closeModal();
-        } else {
-            alert("Accès refusé.");
-        }
-    };
-
-    window.sauverRecette = () => {
-        const t = document.getElementById('titre').value;
-        if(!t) return;
-        window.recipes.push({
-            id: Date.now(), title: t, time: document.getElementById('temps').value,
-            img: document.getElementById('image').value || "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800",
-            ingredients: document.getElementById('ingredients').value.split(','),
-            steps: document.getElementById('instructions').value
+    window.saveRecipe = () => {
+        recipes.push({
+            id: Date.now(), title: document.getElementById('r-title').value,
+            time: document.getElementById('r-time').value, img: document.getElementById('r-img').value,
+            ing: document.getElementById('r-ing').value.split(','), steps: document.getElementById('r-steps').value
         });
-        localStorage.setItem('cm_v11', JSON.stringify(window.recipes));
+        localStorage.setItem('cm_recipes', JSON.stringify(recipes));
         window.showPage('home');
     };
 
-    window.drawManage = () => {
-        document.getElementById('manage-grid').innerHTML = window.recipes.map(r => `
-            <div class="card" style="padding:20px; display:flex; justify-content:space-between; align-items:center">
-                <b>${r.title}</b>
-                <button onclick="window.del(${r.id})" style="color:red; border:none; background:none; cursor:pointer">Supprimer</button>
-            </div>`).join('');
+    window.createUser = () => {
+        const u = document.getElementById('new-user').value;
+        const p = document.getElementById('new-pass').value;
+        const role = document.getElementById('new-role').value;
+        if(u && p) {
+            users.push({ u, p, role, favs: [] });
+            localStorage.setItem('cm_users', JSON.stringify(users));
+            window.renderUsers();
+        }
     };
 
-    window.del = (id) => { if(confirm("Supprimer ?")) { window.recipes = window.recipes.filter(r => r.id !== id); localStorage.setItem('cm_v11', JSON.stringify(window.recipes)); window.drawManage(); } };
-    window.openModal = () => document.getElementById('login-modal').classList.remove('hidden');
-    window.closeModal = () => document.getElementById('login-modal').classList.add('hidden');
-    window.logout = () => { localStorage.clear(); location.reload(); };
-    window.goSurprise = () => window.openRecipe(window.recipes[Math.floor(Math.random()*window.recipes.length)].id);
+    window.renderUsers = () => {
+        document.getElementById('user-list').innerHTML = users.map(u => `
+            <tr><td>${u.u}</td><td>${u.role}</td>
+            <td><button onclick="window.deleteUser('${u.u}')" style="color:red; border:none; background:none; cursor:pointer">Suppr.</button></td></tr>
+        `).join('');
+    };
 
-    window.onload = () => window.drawHome();
+    window.deleteUser = (n) => {
+        if(n === 'leandre') return alert("Action impossible");
+        users = users.filter(x => x.u !== n);
+        localStorage.setItem('cm_users', JSON.stringify(users));
+        window.renderUsers();
+    };
+
+    window.onload = () => window.renderHome();
 </script>
 </body>
 </html>
