@@ -2,101 +2,118 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chef Master</title> 
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chef Master</title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
-      :root {
-        --primary: #ff6b6b;
-        --primary-soft: #fff1f1;
-        --dark: #1a1c20;
-        --bg: #f8f9fb;
-        --sidebar-bg: #ffffff;
-        --text: #2d3436;
-        --radius-lg: 32px;
-        --shadow: 0 20px 40px rgba(0,0,0,0.04);
-      }
+        :root {
+            --primary: #ff6b6b;
+            --primary-soft: #fff1f1;
+            --dark: #1a1c20;
+            --bg: #f8f9fb;
+            --sidebar-bg: #ffffff;
+            --text: #2d3436;
+            --radius-lg: 32px;
+            --radius-sm: 18px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
 
-      /* --- BASICS --- */
-      * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-      body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        margin: 0; display: flex; background: var(--bg); height: 100vh;
-        color: var(--text); overflow: hidden;
-      }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); -webkit-tap-highlight-color: transparent; }
 
-      /* --- SIDEBAR --- */
-      .sidebar {
-        width: 280px; background: var(--sidebar-bg);
-        padding: 40px 24px; display: flex; flex-direction: column;
-        border-right: 1px solid #edf2f7; z-index: 100;
-      }
-      .logo { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: 50px; cursor: pointer; }
-      .logo span { color: var(--primary); display: inline-block; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; display: flex; background: var(--bg); height: 100vh;
+            color: var(--text); overflow: hidden;
+        }
 
-      .menu-btn {
-        padding: 16px 20px; cursor: pointer; border-radius: 20px;
-        margin-bottom: 12px; background: transparent; border: none;
-        color: #718096; text-align: left; width: 100%;
-        font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 15px;
-      }
-      .menu-btn:hover { background: var(--primary-soft); color: var(--primary); transform: translateX(8px); }
-      .menu-btn.active { background: var(--primary); color: white; box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3); }
+        /* --- NAVIGATION (PC) --- */
+        .sidebar {
+            width: 280px; background: var(--sidebar-bg);
+            padding: 40px 24px; display: flex; flex-direction: column;
+            border-right: 1px solid #edf2f7; z-index: 100;
+        }
 
-      /* --- MAIN CONTENT --- */
-      .main { flex: 1; overflow-y: auto; padding: 50px 60px; scroll-behavior: smooth; position: relative; }
-      .hidden { display: none !important; }
-      
-      h1 { font-size: 3.2rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; }
-      h1 span { color: var(--primary); }
-      .subtitle { color: #a0aec0; margin-bottom: 40px; font-size: 1.1rem; }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: 50px; cursor: pointer; }
+        .logo span { color: var(--primary); }
 
-      /* SEARCH BAR */
-      .search-wrapper { display: flex; gap: 15px; align-items: center; margin-bottom: 40px; }
-      .search-input {
-        width: 100%; max-width: 500px; padding: 20px 30px;
-        border-radius: 25px; border: 2px solid transparent;
-        background: white; font-size: 1rem; outline: none;
-        box-shadow: var(--shadow);
-      }
-      .search-input:focus { border-color: var(--primary); transform: scale(1.02); }
+        .menu-btn {
+            padding: 16px 20px; cursor: pointer; border-radius: 20px;
+            margin-bottom: 12px; background: transparent; border: none;
+            color: #718096; text-align: left; width: 100%;
+            font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 15px;
+        }
+        .menu-btn.active { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2); }
 
-      .btn-surprise { background: var(--dark); color: white; border: none; padding: 15px 25px; border-radius: 20px; cursor: pointer; font-weight: 600; }
-      .btn-surprise:hover { background: var(--primary); transform: scale(1.05) rotate(-2deg); }
+        /* --- CONTENU PRINCIPAL --- */
+        .main { flex: 1; overflow-y: auto; padding: 50px 60px; scroll-behavior: smooth; }
+        .hidden { display: none !important; }
+        
+        h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; line-height: 1.1; }
+        .subtitle { color: #a0aec0; margin-bottom: 40px; }
 
-      /* --- CARDS --- */
-      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
-      .card {
-        background: white; border-radius: var(--radius-lg); overflow: hidden;
-        box-shadow: var(--shadow); cursor: pointer;
-      }
-      .card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
-      .img-container { width: 100%; height: 240px; overflow: hidden; }
-      .card-img { width: 100%; height: 100%; object-fit: cover; }
-      .card:hover .card-img { transform: scale(1.1); }
-      .card-info { padding: 30px; }
-      .card-tag { background: var(--primary-soft); color: var(--primary); padding: 5px 12px; border-radius: 10px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
+        /* RECHERCHE */
+        .search-wrapper { display: flex; gap: 15px; margin-bottom: 40px; }
+        .search-input {
+            flex: 1; padding: 18px 25px; border-radius: 22px; border: 2px solid transparent;
+            background: white; font-size: 1rem; outline: none; box-shadow: var(--shadow);
+        }
+        .btn-surprise { background: var(--dark); color: white; border: none; padding: 15px 25px; border-radius: 20px; cursor: pointer; font-weight: 600; white-space: nowrap; }
 
-      /* --- DETAIL VIEW --- */
-      .progress-bar { position: fixed; top: 0; left: 280px; height: 6px; background: var(--primary); width: 0%; z-index: 1000; }
-      .recipe-hero { width: 100%; height: 500px; border-radius: 45px; object-fit: cover; margin-bottom: 50px; box-shadow: var(--shadow); }
-      .detail-layout { display: grid; grid-template-columns: 1fr 400px; gap: 70px; }
+        /* GRILLE */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); cursor: pointer; position: relative; }
+        .card:active { transform: scale(0.98); }
+        .img-container { width: 100%; height: 220px; overflow: hidden; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; }
+        .card-info { padding: 25px; }
 
-      .ing-card { background: white; padding: 35px; border-radius: var(--radius-lg); box-shadow: var(--shadow); position: sticky; top: 20px; }
-      .portion-toggle { 
-        display: flex; align-items: center; justify-content: space-between; 
-        background: var(--dark); color: white; padding: 18px 25px; 
-        border-radius: 22px; margin-bottom: 30px; 
-      }
-      .p-btn { width: 35px; height: 35px; border-radius: 12px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; font-weight: bold; }
+        /* PAGE DÉTAIL */
+        .progress-bar { position: fixed; top: 0; left: 280px; height: 5px; background: var(--primary); width: 0%; z-index: 1000; }
+        .recipe-hero { width: 100%; height: 450px; border-radius: 40px; object-fit: cover; margin-bottom: 30px; }
+        .detail-layout { display: grid; grid-template-columns: 1fr 380px; gap: 50px; }
+        .ing-card { background: white; padding: 30px; border-radius: var(--radius-lg); box-shadow: var(--shadow); height: fit-content; }
+        
+        /* PORTIONS */
+        .portion-box { display: flex; align-items: center; justify-content: space-between; background: var(--dark); color: white; padding: 15px 20px; border-radius: 20px; margin-bottom: 25px; }
+        .p-btn { width: 35px; height: 35px; border-radius: 10px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; }
 
-      /* --- MODALS & FORMS --- */
-      #login-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(15px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-      .modal-box { background: white; padding: 50px; border-radius: 40px; width: 400px; text-align: center; }
-      input, textarea { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 20px; border: 1px solid #eee; background: #f9f9f9; font-family: inherit; outline: none; }
-      .btn-action { background: var(--primary); color: white; border: none; padding: 20px; border-radius: 20px; width: 100%; font-weight: 800; cursor: pointer; }
+        /* =============================================
+           📱 RESPONSIVE MOBILE
+           ============================================= */
+        @media (max-width: 850px) {
+            body { flex-direction: column; }
+            
+            /* Sidebar devient menu du bas */
+            .sidebar {
+                position: fixed; bottom: 0; left: 0; right: 0; width: 100%;
+                height: 70px; padding: 0 15px; flex-direction: row;
+                justify-content: space-around; align-items: center;
+                border-right: none; border-top: 1px solid #edf2f7;
+                border-radius: 25px 25px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+            }
+            .logo, #login-trigger, #logout-trigger, #admin-links .menu-btn:not(#btn-add) { display: none; }
+            .menu-btn { margin-bottom: 0; padding: 12px; width: auto; border-radius: 15px; }
+            .menu-btn span { display: none; } /* On cache le texte, on garde l'emoji */
+            .menu-btn { font-size: 1.5rem; }
+
+            .main { padding: 30px 20px 100px 20px; } /* Marge en bas pour le menu */
+            h1 { font-size: 2.2rem !important; }
+            
+            .search-wrapper { flex-direction: column; }
+            .grid { grid-template-columns: 1fr; }
+            .detail-layout { grid-template-columns: 1fr; gap: 30px; }
+            .recipe-hero { height: 280px; border-radius: 25px; }
+            .progress-bar { left: 0; }
+            
+            #admin-links { display: flex; gap: 10px; }
+        }
+
+        /* MODAL */
+        #login-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .modal-box { background: white; padding: 40px; border-radius: 30px; width: 100%; max-width: 400px; text-align: center; }
+        input, textarea { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 18px; border: 1px solid #eee; background: #f9f9f9; font-size: 1rem; }
+        .btn-action { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 18px; width: 100%; font-weight: 800; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -104,200 +121,178 @@
 <div class="progress-bar" id="myBar"></div>
 
 <div class="sidebar">
-  <div class="logo" onclick="window.showPage('home')">Chef<span>Master.</span></div>
-  <button class="menu-btn active" id="btn-home" onclick="window.showPage('home')">🏠 Bibliothèque</button>
-  
-  <div id="admin-links" class="hidden">
-    <button class="menu-btn" id="btn-add" onclick="window.showPage('add')">✨ Créer une Recette</button>
-    <button class="menu-btn" id="btn-manage" onclick="window.showPage('manage')">🛠 Laboratoire</button>
-  </div>
+    <div class="logo" onclick="window.showPage('home')">Chef<span>Master.</span></div>
+    <button class="menu-btn active" id="btn-home" onclick="window.showPage('home')">🏠 <span>Accueil</span></button>
+    
+    <div id="admin-links" class="hidden" style="display: contents;">
+        <button class="menu-btn" id="btn-add" onclick="window.showPage('add')">✨ <span>Créer</span></button>
+        <button class="menu-btn" id="btn-manage" onclick="window.showPage('manage')">🛠 <span>Admin</span></button>
+    </div>
 
-  <div style="margin-top: auto;">
-    <button id="login-trigger" class="menu-btn" onclick="window.openModal()">🔐 Accès Privé</button>
-    <button id="logout-trigger" class="menu-btn hidden" style="color: var(--primary)" onclick="window.logout()">🚪 Sortie</button>
-  </div>
+    <button id="login-trigger" class="menu-btn" style="margin-top: auto;" onclick="window.openModal()">🔐 <span>Chef Login</span></button>
+    <button id="logout-trigger" class="menu-btn hidden" style="margin-top: auto; color: var(--primary)" onclick="window.logout()">🚪 <span>Sortie</span></button>
 </div>
 
 <div class="main" id="scroll-area">
-  <div id="page-home">
-    <h1>Cuisinez<span> l'instant.</span></h1>
-    <p class="subtitle">Bienvenue chez vous, Chef.</p>
-    
-    <div class="search-wrapper">
-      <input type="text" id="search-bar" class="search-input" placeholder="Chercher un plat ou un ingrédient..." oninput="window.filterRecipes()">
-      <button class="btn-surprise" onclick="window.goSurprise()">🎲 Surprise !</button>
+    <div id="page-home">
+        <h1>Cuisinez<span> l'instant.</span></h1>
+        <p class="subtitle">Vos pépites culinaires au même endroit.</p>
+        
+        <div class="search-wrapper">
+            <input type="text" id="search-bar" class="search-input" placeholder="Une envie ?" oninput="window.filterRecipes()">
+            <button class="btn-surprise" onclick="window.goSurprise()">🎲 Surprise</button>
+        </div>
+        <div id="home-grid" class="grid"></div>
     </div>
 
-    <div id="home-grid" class="grid"></div>
-  </div>
-
-  <div id="page-detail" class="hidden">
-    <button class="menu-btn" style="width: auto; margin-bottom: 30px;" onclick="window.showPage('home')">← Retour</button>
-    <div id="detail-content"></div>
-  </div>
-
-  <div id="page-add" class="hidden">
-    <h1>Nouvelle<span> Création.</span></h1>
-    <div style="background:white; padding:50px; border-radius:40px; max-width:650px; box-shadow: var(--shadow);">
-      <input type="text" id="titre" placeholder="Nom du plat">
-      <input type="text" id="temps" placeholder="Temps (ex: 20 min)">
-      <input type="text" id="image" placeholder="Image URL (Unsplash...)">
-      <textarea id="ingredients" rows="3" placeholder="Ingrédients (séparés par une virgule)"></textarea>
-      <textarea id="instructions" rows="6" placeholder="Étapes de préparation..."></textarea>
-      <button class="btn-action" onclick="window.sauverRecette()">Enregistrer la pépite</button>
+    <div id="page-detail" class="hidden">
+        <button class="menu-btn" style="width: auto; margin-bottom: 20px; background: #eee; color: #333;" onclick="window.showPage('home')">← Retour</button>
+        <div id="detail-content"></div>
     </div>
-  </div>
 
-  <div id="page-manage" class="hidden">
-    <h1>Gestion de la Carte</h1>
-    <button onclick="localStorage.clear(); location.reload();" style="color:#a0aec0; border:none; background:none; cursor:pointer; margin-bottom:20px;">Vider la base de données</button>
-    <div id="manage-grid" class="grid"></div>
-  </div>
+    <div id="page-add" class="hidden">
+        <h1>Nouvelle Recette</h1>
+        <div style="background:white; padding:30px; border-radius:25px; box-shadow: var(--shadow);">
+            <input type="text" id="titre" placeholder="Nom du plat">
+            <input type="text" id="temps" placeholder="Temps (ex: 20 min)">
+            <input type="text" id="image" placeholder="Image URL (Unsplash)">
+            <textarea id="ingredients" rows="3" placeholder="Ingrédients (séparés par une virgule)"></textarea>
+            <textarea id="instructions" rows="6" placeholder="Étapes de préparation..."></textarea>
+            <button class="btn-action" onclick="window.sauverRecette()">Enregistrer</button>
+        </div>
+    </div>
+
+    <div id="page-manage" class="hidden">
+        <h1>Laboratoire</h1>
+        <div id="manage-grid" class="grid"></div>
+    </div>
 </div>
 
 <div id="login-modal" class="hidden">
-  <div class="modal-box">
-    <h2>Bonjour Chef.</h2>
-    <p style="color:#a0aec0; margin-bottom:30px;">Identifiants requis.</p>
-    <input type="text" id="user" placeholder="Identifiant">
-    <input type="password" id="pass" placeholder="Mot de passe">
-    <button class="btn-action" onclick="window.validerLogin()">Se connecter</button>
-    <button onclick="window.closeModal()" style="background:none; border:none; color:#a0aec0; margin-top:15px; cursor:pointer;">Annuler</button>
-  </div>
+    <div class="modal-box">
+        <h2>Chef </h2>
+        <input type="text" id="user" placeholder="Identifiant">
+        <input type="password" id="pass" placeholder="Mot de passe">
+        <button class="btn-action" onclick="window.validerLogin()">Connexion</button>
+        <button onclick="window.closeModal()" style="background:none; border:none; color:#a0aec0; margin-top:15px; cursor:pointer;">Annuler</button>
+    </div>
 </div>
 
 <script>
-  let currentP = 4;
-  let currentR = null;
+    let currentP = 4;
+    let currentR = null;
 
-  // Données initiales
-  const data = [
-    { id: 1, title: "Carbonara Royale", time: "15 min", img: "https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800", ingredients: ["400g Spaghetti", "200g Lardons", "4 jaunes d'œufs", "100g Parmesan"], steps: "1. Cuire les pâtes.\n2. Griller les lardons.\n3. Créer l'émulsion œufs/fromage.\n4. Mélanger hors du feu." },
-    { id: 2, title: "Pizza Gourmet", time: "20 min", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800", ingredients: ["1 Pâte", "200g Tomate", "Mozzarella di bufala"], steps: "1. Étaler.\n2. Garnir.\n3. Cuire à 220°C." }
-  ];
+    const data = [
+        { id: 1, title: "Carbonara Royale", time: "15 min", img: "https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800", ingredients: ["400g Spaghetti", "200g Lardons", "4 jaunes d'œufs", "100g Parmesan"], steps: "1. Cuire les pâtes.\n2. Griller les lardons.\n3. Créer l'émulsion œufs/fromage.\n4. Mélanger hors du feu." }
+    ];
 
-  window.recipes = JSON.parse(localStorage.getItem('chef_final_v1')) || data;
-  window.save = () => localStorage.setItem('chef_final_v1', JSON.stringify(window.recipes));
+    window.recipes = JSON.parse(localStorage.getItem('chef_v10')) || data;
+    window.save = () => localStorage.setItem('chef_v10', JSON.stringify(window.recipes));
 
-  // Gestion de la barre de lecture
-  document.getElementById('scroll-area').onscroll = function() {
-    let winScroll = document.getElementById('scroll-area').scrollTop;
-    let height = document.getElementById('scroll-area').scrollHeight - document.getElementById('scroll-area').clientHeight;
-    let scrolled = (winScroll / height) * 100;
-    document.getElementById("myBar").style.width = scrolled + "%";
-  };
+    document.getElementById('scroll-area').onscroll = function() {
+        let winScroll = document.getElementById('scroll-area').scrollTop;
+        let height = document.getElementById('scroll-area').scrollHeight - document.getElementById('scroll-area').clientHeight;
+        document.getElementById("myBar").style.width = (winScroll / height) * 100 + "%";
+    };
 
-  // Navigation
-  window.showPage = (p) => {
-    ["home", "detail", "add", "manage"].forEach(id => document.getElementById('page-'+id).classList.add('hidden'));
-    document.getElementById('page-'+p).classList.remove('hidden');
-    document.querySelectorAll('.menu-btn').forEach(b => b.classList.toggle('active', b.id === 'btn-'+p));
-    document.getElementById('scroll-area').scrollTop = 0;
-    if(p === 'home') window.drawHome();
-    if(p === 'manage') window.drawManage();
-  };
+    window.showPage = (p) => {
+        ["home", "detail", "add", "manage"].forEach(id => {
+            const el = document.getElementById('page-'+id);
+            if(el) el.classList.add('hidden');
+        });
+        document.getElementById('page-'+p).classList.remove('hidden');
+        document.querySelectorAll('.menu-btn').forEach(b => b.classList.toggle('active', b.id === 'btn-'+p));
+        document.getElementById('scroll-area').scrollTop = 0;
+        if(p === 'home') window.drawHome();
+        if(p === 'manage') window.drawManage();
+    };
 
-  // Affichage Accueil
-  window.drawHome = () => {
-    const s = document.getElementById('search-bar').value.toLowerCase();
-    const filtered = window.recipes.filter(r => r.title.toLowerCase().includes(s) || r.ingredients.join(' ').toLowerCase().includes(s));
-    document.getElementById('home-grid').innerHTML = filtered.map(r => `
-      <div class="card" onclick="window.openRecipe(${r.id})">
-        <div class="img-container"><img src="${r.img}" class="card-img"></div>
-        <div class="card-info">
-          <span class="card-tag">Chef Choice ✨</span>
-          <h3 style="margin:15px 0 5px 0">${r.title}</h3>
-          <small style="color:#a0aec0">⏱ ${r.time} • 👥 4 pers.</small>
-        </div>
-      </div>`).join('');
-  };
+    window.drawHome = () => {
+        const s = document.getElementById('search-bar').value.toLowerCase();
+        const filtered = window.recipes.filter(r => r.title.toLowerCase().includes(s));
+        document.getElementById('home-grid').innerHTML = filtered.map(r => `
+            <div class="card" onclick="window.openRecipe(${r.id})">
+                <div class="img-container"><img src="${r.img}" class="card-img"></div>
+                <div class="card-info">
+                    <b style="font-size:1.2rem; display:block">${r.title}</b>
+                    <small style="color:#a0aec0">⏱ ${r.time} • 👥 4 pers.</small>
+                </div>
+            </div>`).join('');
+    };
 
-  // Détail Recette
-  window.openRecipe = (id) => {
-    currentR = window.recipes.find(r => r.id === id);
-    currentP = 4;
-    window.showPage('detail');
-    window.updateUI();
-  };
+    window.openRecipe = (id) => {
+        currentR = window.recipes.find(r => r.id === id);
+        currentP = 4;
+        window.showPage('detail');
+        window.updateUI();
+    };
 
-  window.updateUI = () => {
-    const ratio = currentP / 4;
-    const ings = currentR.ingredients.map(i => i.replace(/(\d+)/g, m => Math.round(m * ratio)));
-    document.getElementById('detail-content').innerHTML = `
-      <img src="${currentR.img}" class="recipe-hero">
-      <div class="detail-layout">
-        <div>
-          <h1 style="font-size:4rem; margin-top:0">${currentR.title}</h1>
-          <p style="font-size:1.3rem; line-height:2; color:#718096; white-space:pre-line">${currentR.steps}</p>
-        </div>
-        <div>
-          <div class="ing-card">
-            <div class="portion-toggle">
-              <span>Portions</span>
-              <div style="display:flex; align-items:center; gap:15px">
-                <button class="p-btn" onclick="window.chP(-1)">-</button>
-                <b style="font-size:1.5rem">${currentP}</b>
-                <button class="p-btn" onclick="window.chP(1)">+</button>
-              </div>
-            </div>
-            <h3>Ingrédients</h3>
-            <ul style="padding:0; list-style:none">
-              ${ings.map(i => `<li style="padding:15px 0; border-bottom:1px solid #f1f4f8">✔ ${i}</li>`).join('')}
-            </ul>
-          </div>
-        </div>
-      </div>`;
-  };
+    window.updateUI = () => {
+        const ratio = currentP / 4;
+        const ings = currentR.ingredients.map(i => i.replace(/(\d+)/g, m => Math.round(m * ratio)));
+        document.getElementById('detail-content').innerHTML = `
+            <img src="${currentR.img}" class="recipe-hero">
+            <div class="detail-layout">
+                <div>
+                    <h1 style="margin-top:0">${currentR.title}</h1>
+                    <p style="font-size:1.1rem; line-height:1.8; color:#718096; white-space:pre-line">${currentR.steps}</p>
+                </div>
+                <div>
+                    <div class="ing-card">
+                        <div class="portion-box">
+                            <span>Portions</span>
+                            <div style="display:flex; align-items:center; gap:10px">
+                                <button class="p-btn" onclick="window.chP(-1)">-</button>
+                                <b>${currentP}</b>
+                                <button class="p-btn" onclick="window.chP(1)">+</button>
+                            </div>
+                        </div>
+                        <h3>🛒 Ingrédients</h3>
+                        <ul style="padding:0; list-style:none">${ings.map(i => `<li style="padding:12px 0; border-bottom:1px solid #f1f4f8">✔ ${i}</li>`).join('')}</ul>
+                    </div>
+                </div>
+            </div>`;
+    };
 
-  // Fonctions outils
-  window.chP = (v) => { if(currentP + v >= 1) { currentP += v; window.updateUI(); } };
-  window.filterRecipes = () => window.drawHome();
-  window.goSurprise = () => {
-    const rand = window.recipes[Math.floor(Math.random() * window.recipes.length)];
-    window.openRecipe(rand.id);
-  };
+    window.chP = (v) => { if(currentP + v >= 1) { currentP += v; window.updateUI(); } };
+    window.filterRecipes = () => window.drawHome();
+    window.goSurprise = () => window.openRecipe(window.recipes[Math.floor(Math.random()*window.recipes.length)].id);
 
-  // SECURITE : leandre / Lelebon2012!
-  window.validerLogin = () => {
-    const u = document.getElementById('user').value;
-    const p = document.getElementById('pass').value;
-    if(u === "leandre" && p === "Lelebon2012!") {
-      document.getElementById('admin-links').classList.remove('hidden');
-      document.getElementById('login-trigger').classList.add('hidden');
-      document.getElementById('logout-trigger').classList.remove('hidden');
-      window.closeModal();
-    } else {
-      alert("Accès réservé au Chef Léandre !");
-    }
-  };
+    window.validerLogin = () => {
+        if(document.getElementById('user').value === "leandre" && document.getElementById('pass').value === "Lelebon2012!") {
+            document.getElementById('admin-links').classList.remove('hidden');
+            document.getElementById('login-trigger').classList.add('hidden');
+            document.getElementById('logout-trigger').classList.remove('hidden');
+            window.closeModal();
+        } else alert("Identifiants incorrects !");
+    };
 
-  window.sauverRecette = () => {
-    const t = document.getElementById('titre').value;
-    if(!t) return;
-    window.recipes.push({
-      id: Date.now(), title: t, time: document.getElementById('temps').value || "30 min",
-      img: document.getElementById('image').value || "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800",
-      ingredients: document.getElementById('ingredients').value.split(','),
-      steps: document.getElementById('instructions').value
-    });
-    window.save(); window.showPage('home');
-  };
+    window.sauverRecette = () => {
+        const t = document.getElementById('titre').value;
+        if(!t) return;
+        window.recipes.push({
+            id: Date.now(), title: t, time: document.getElementById('temps').value || "20 min",
+            img: document.getElementById('image').value || "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800",
+            ingredients: document.getElementById('ingredients').value.split(','),
+            steps: document.getElementById('instructions').value
+        });
+        window.save(); window.showPage('home');
+    };
 
-  window.drawManage = () => {
-    document.getElementById('manage-grid').innerHTML = window.recipes.map(r => `
-      <div class="card" style="padding:30px; display:flex; justify-content:space-between; align-items:center">
-        <b>${r.title}</b>
-        <button onclick="window.del(${r.id})" style="color:var(--primary); border:none; background:none; cursor:pointer; font-weight:800">Supprimer</button>
-      </div>`).join('');
-  };
+    window.drawManage = () => {
+        document.getElementById('manage-grid').innerHTML = window.recipes.map(r => `
+            <div class="card" style="padding:20px; display:flex; justify-content:space-between; align-items:center">
+                <b>${r.title}</b>
+                <button onclick="window.del(${r.id})" style="color:red; border:none; background:none; cursor:pointer; font-weight:bold">Supprimer</button>
+            </div>`).join('');
+    };
 
-  window.del = (id) => { if(confirm("Supprimer ?")) { window.recipes = window.recipes.filter(r => r.id !== id); window.save(); window.drawManage(); } };
-  window.openModal = () => document.getElementById('login-modal').classList.remove('hidden');
-  window.closeModal = () => document.getElementById('login-modal').classList.add('hidden');
-  window.logout = () => { localStorage.clear(); location.reload(); };
+    window.del = (id) => { if(confirm("Supprimer ?")) { window.recipes = window.recipes.filter(r => r.id !== id); window.save(); window.drawManage(); } };
+    window.openModal = () => document.getElementById('login-modal').classList.remove('hidden');
+    window.closeModal = () => document.getElementById('login-modal').classList.add('hidden');
+    window.logout = () => { localStorage.clear(); location.reload(); };
 
-  window.onload = () => window.drawHome();
+    window.onload = () => window.drawHome();
 </script>
-
 </body>
 </html>
